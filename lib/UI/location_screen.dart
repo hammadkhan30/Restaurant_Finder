@@ -6,7 +6,7 @@ class LocationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:Text("Restaurant Quaerere"),
-
+        //color: Color
       ),
     );
   }
