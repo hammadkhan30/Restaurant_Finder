@@ -1,41 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_finder/Bloc/bloc_provider.dart';
+import 'package:restaurant_finder/Bloc/loc_query_bloc.dart';
 
 class LocationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Restaurant Quaerere"),
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: Center(
+    // 1
+    final bloc = LocationQueryBloc();
+
+    // 2
+    return BlocProvider<LocationQueryBloc>(
+      bloc: bloc,
+      child: Scaffold(
+        appBar: AppBar(title: Text('Where do you want to eat?')),
+        body: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
               child: TextField(
-                autocorrect: true,
                 decoration: InputDecoration(
-                  hintText: 'Select The city',
-                  hintStyle: TextStyle(color: Theme.of(context).primaryColor),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                  ),
-                ),
-                onChanged: {query} ( ),
+                    border: OutlineInputBorder(), hintText: 'Enter a location'),
+
+                // 3
+                onChanged: (query) => bloc.submitQuery(query),
               ),
             ),
-          ),
-        ],
+            // 4
+            Expanded(
+              child: _buildResults(bloc),
+            )
+          ],
+        ),
       ),
     );
   }
